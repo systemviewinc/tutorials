@@ -1,0 +1,199 @@
+system: system_hw_pr
+contexts:
+  - name: u96_pl
+    bname: vsi_context
+    c_compiler_options: "-std=c11 -static -g -DDEBUG -O0"
+    cc_compiler_options: "-std=c++11 -static -g -DDEBUG -O0 -fpermissive"
+    library_directories: ""
+    shared_libraries: ""
+    archive_libraries: ""
+    sysroot: ""
+    include_directories: "$(XFOPENCV)/include"
+    use_v4l: false
+    use_opencv: false
+  - name: u96_ps
+    bname: vsi_context
+    c_compiler_options: "-std=c11  -g   -DDEBUG -O0"
+    cc_compiler_options: "-std=c++11 -g  -DDEBUG -O0 -fpermissive"
+    library_directories: ""
+    shared_libraries: ""
+    archive_libraries: ""
+    sysroot: "$(SYSROOT)"
+    include_directories: "$(SYSROOT)/../,/tools/Xilinx/Vivado/2018.3/include,"
+    use_v4l: true
+    use_opencv: true
+  - name: u96_r5
+    bname: vsi_context
+    c_compiler_options: "-std=c11 -static -g -DDEBUG -O0"
+    cc_compiler_options: "-std=c++11 -static -g -DDEBUG -O0 -fpermissive"
+    library_directories: ""
+    shared_libraries: ""
+    archive_libraries: ""
+    sysroot: ""
+    include_directories: ""
+    use_v4l: false
+    use_opencv: false
+blocks:
+  - name: min_max
+    vendor_library_name_version: vsi.com:soft_ip:vsi_gen_ip:1.0
+    context: u96_pl
+    hierarchy: /u96_pl/pr_set_0_0
+    lod_group: pr_set_0
+    lod_id: 0
+    type: hls
+    cname: min_max_shmem
+    frequency: 100000000
+    source_dirs: $(VSI_INSTALL)/target/common/hls_examples/image_algos,
+    source_file: $(VSI_INSTALL)/target/common/hls_examples/image_algos/image_algos.cc
+    thread_type: dedicated
+    interfaces:
+      - name: start
+        direction: input
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+        trigger: true
+        connect: webcam_0:start_mm
+      - name: done
+        direction: output
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+      - name: io_frame
+        direction: inout
+        access_type: memory
+        type: array
+        max_packet_size: 76800
+  - name: speedometer
+    vendor_library_name_version: vsi.com:soft_ip:vsi_gen_ip:1.0
+    context: u96_pl
+    hierarchy: /u96_pl/pr_set_0_1
+    lod_group: pr_set_0
+    lod_id: 1
+    type: hls
+    cname: draw_speedometer
+    frequency: 100000000
+    source_dirs: $(VSI_INSTALL)/target/common/hls_examples/image_algos,
+    source_file: $(VSI_INSTALL)/target/common/hls_examples/image_algos/image_algos.cc
+    thread_type: dedicated
+    interfaces:
+      - name: start
+        direction: input
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+        trigger: true
+        connect: webcam_0:start_fc
+      - name: done
+        direction: output
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+      - name: io_frame
+        direction: inout
+        access_type: memory
+        type: array
+        max_packet_size: 76800
+  - name: display_0
+    vendor_library_name_version: vsi.com:soft_ip:vsi_gen_ip:1.0
+    context: u96_ps
+    hierarchy: /u96_ps
+    type: hls
+    cname: display_image
+    frequency: 100000000
+    source_dirs: $(VSI_INSTALL)/target/common/hls_examples/webcam,
+    source_file: $(VSI_INSTALL)/target/common/hls_examples/webcam/webcam.cc
+    thread_type: dedicated
+    interfaces:
+      - name: control
+        direction: output
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+  - name: fcorner_shmem
+    vendor_library_name_version: vsi.com:vsi_software_lib:vsi_mem:1.0
+    context: u96_ps
+    hierarchy: /u96_ps
+    type: software
+    cname: vsi_mem
+    parameters:
+      MEM_SIZE_KB: 1024
+      num_ports: 2
+      share_with_hw: true
+    interfaces:
+      - name: port_0
+        direction: input
+        access_type: streaming
+        connect: speedometer:io_frame
+      - name: port_1
+        direction: input
+        access_type: streaming
+        connect: webcam_0:mem_fc
+  - name: minmax_shmem
+    vendor_library_name_version: vsi.com:vsi_software_lib:vsi_mem:1.0
+    context: u96_ps
+    hierarchy: /u96_ps
+    type: software
+    cname: vsi_mem
+    parameters:
+      MEM_SIZE_KB: 1024
+      num_ports: 2
+      share_with_hw: true
+    interfaces:
+      - name: port_0
+        direction: input
+        access_type: streaming
+        connect: min_max:io_frame
+      - name: port_1
+        direction: input
+        access_type: streaming
+        connect: webcam_0:mem_mm
+  - name: webcam_0
+    vendor_library_name_version: vsi.com:soft_ip:vsi_gen_ip:1.0
+    context: u96_ps
+    hierarchy: /u96_ps
+    type: hls
+    cname: webcam0
+    frequency: 100000000
+    source_dirs: $(VSI_INSTALL)/target/common/hls_examples/webcam,
+    source_file: $(VSI_INSTALL)/target/common/hls_examples/webcam/webcam.cc
+    thread_type: dedicated
+    interfaces:
+      - name: control
+        direction: input
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+        connect: display_0:control
+      - name: mem_mm
+        direction: inout
+        access_type: memory
+        type: reference
+        max_packet_size: 8
+      - name: start_mm
+        direction: output
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+      - name: done_mm
+        direction: input
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+        connect: min_max:done
+      - name: mem_fc
+        direction: inout
+        access_type: memory
+        type: reference
+        max_packet_size: 8
+      - name: start_fc
+        direction: output
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+      - name: done_fc
+        direction: input
+        access_type: streaming
+        type: reference
+        max_packet_size: -2
+        connect: speedometer:done
