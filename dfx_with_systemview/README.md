@@ -47,7 +47,7 @@ The purpose of this tutorial is to demonstrate:
 	```
 	XFOPENCV=<xfopencv directory>
 	```
-
+1. [system_hw_pr.yaml](https://xdf-lab.s3.amazonaws.com/system_hw_pr.yaml) - We will import a already created system using this file in step 11. 
 
 <a name="generate_project"></a>
 # Section 1: Generate the VSI Project:
