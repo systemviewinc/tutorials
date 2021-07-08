@@ -28,20 +28,20 @@ The purpose of this tutorial is to demonstrate:
 <a name="prereq"></a>
 # Prerequisites:
 1. VSI install: [See get started.](https://systemviewinc.com/get-started/locally/)
-1. Vivado 2018.3
-1. Ultra96 V1 or V2 Board
-	1. With a capitble USB webcam, Logictech webcams seem to work best, [this is the one we use.](https://www.amazon.com/Logitech-C920S-Webcam-Privacy-Shutter/dp/B07K95WFWM/)
-	1. Running Linux with openCV Libraries and Video for Linux (V4L) - [get a working SD image here(4GB).](https://xdf-lab.s3.amazonaws.com/lab_sd_image_v3.img)
-	1.(Optional) Keyboard, mouse, monitor, and USB hub to run the output application on.
-1. A copy of the Linux rootfs for cross compiling
-	1. For the SD image given above get [the rootfs here.](https://xdf-lab.s3.amazonaws.com/u96_image.tar.gz)
-	1. Before starting VSI set env variable SYSROOT to that folder
+2. Vivado 2018.3
+3. Ultra96 V1 or V2 Board
+	3.1. With a capitble USB webcam, Logictech webcams seem to work best, [this is the one we use.](https://www.amazon.com/Logitech-C920S-Webcam-Privacy-Shutter/dp/B07K95WFWM/)
+	3.2. Running Linux with openCV Libraries and Video for Linux (V4L) - [get a working SD image here(4GB).](https://xdf-lab.s3.amazonaws.com/lab_sd_image_v3.img)
+	3.3.(Optional) Keyboard, mouse, monitor, and USB hub to run the output application on.
+4. A copy of the Linux rootfs for cross compiling
+	4.1. For the SD image given above get [the rootfs here.](https://xdf-lab.s3.amazonaws.com/u96_image.tar.gz)
+	4.2. Before starting VSI set env variable SYSROOT to that folder
 
 	```
 	export SYSROOT=<rootfs directory>>
 	```
 
-1. [Xilinx xfOpenCV Library](https://github.com/Xilinx/xfopencv)
+5. [Xilinx xfOpenCV Library](https://github.com/Xilinx/xfopencv)
 	1. Before starting VSI set env variable XFOPENCV to that folder
 
 	```
@@ -55,32 +55,32 @@ The purpose of this tutorial is to demonstrate:
 The following steps provide instructions to create a VSI project and shows the VSI tool design **Flow** used to generate and build an application. This section will also show how to use DFX in set in VSI.
 
 1. Start **VSI**
-1. Under **Quick Start**, select **Open Example Project**
+2. Under **Quick Start**, select **Open Example Project**
 The example projects are a set of platforms and applications that can be combined to quickly make different example projects. These example projects are used to create the platform for this tutorial.
 ![image alt text](images/quick_start.png)
-1. Under **Create an Example Project**, select Next.
-1. Under **Select Project Template**, Select Next.
-1. Under the **Project Name**:  
-	1. Set the **Project name** to **vsi_dfx**
-	1. Under the **Project location** set a location.
-	1. If not already selected, check **Create project subdirectory**
+3. Under **Create an Example Project**, select Next.
+4. Under **Select Project Template**, Select Next.
+5. Under the **Project Name**:  
+	5.1. Set the **Project name** to **vsi_dfx**
+	5.2. Under the **Project location** set a location.
+	5.3. If not already selected, check **Create project subdirectory**
 
 	![image alt text](images/dfx_project_name.png)
 
-1. Under the **Default Part** window, select Next.
-	1. In this example, the part is automatically set, so selecting one is not necessary.
-1. Under **Configure Project**:
-1. Set the platform to **ultra96_platform**
-	1. Ultra96 is the board used for this tutorial. VSI has an example platform for this board which will be used.
-	1. Leave the Application blank. The application will be built at a later time.
+6.1. Under the **Default Part** window, select Next.
+	6.1. In this example, the part is automatically set, so selecting one is not necessary.
+7. Under **Configure Project**:
+8. Set the platform to **ultra96_platform**
+	8,1. Ultra96 is the board used for this tutorial. VSI has an example platform for this board which will be used.
+	8.2. Leave the Application blank. The application will be built at a later time.
 
 		![image alt text](images/select_platform_ultra96.png)
 
-	1. Select Next
-	1. Under **New Project Summary**, select Finish.
+	8.3. Select Next
+	8.4. Under **New Project Summary**, select Finish.
 
-1. Open the Platform:
-	1. From the menu bar select: **Flow** -> **Open Platform** -> **ultra96_platform_platform.bd**
+9. Open the Platform:
+	9.1. From the menu bar select: **Flow** -> **Open Platform** -> **ultra96_platform_platform.bd**
 
 	The platform is a lower level description of the infrastructure of the system. This particular platform describes the three execution contexts found on the Ultra96's ultrascale+ MPSOC chip. Execution contexts are hierarchies in which a Hardware (RTL) or a Software (C, C++, Java, etc) block can be placed for execution. The Ultra96 is comprised of two software contexts (the ARM processor and the r5 processor) and one hardware context (the programmable logic). Another important aspect of the platform is it also describes the communication between execution contexts.
 
@@ -88,13 +88,13 @@ The example projects are a set of platforms and applications that can be combine
 
 	Once the platform is completed the **Compile Platform** allows the VSI to compile the infrastructure information. The VSI design **Flow** is iterative and if the platform can be changed at anytime.
 
-1. Compile the Platform:
-	1. From the menu bar select: **Flow**  -> Compile Platform -> Select Ok
+10. Compile the Platform:
+	10.1. From the menu bar select: **Flow**  -> Compile Platform -> Select Ok
 
 	![image alt text](images/compile_platform.png)
 
-1. Create the System:
-	1. In the tcl console on the bottom of the screen type the following command:
+11. Create the System:
+	11.1. In the tcl console on the bottom of the screen type the following command:
 
 	```
 	vsi::import_yaml_system  [current_bd_design]  <<path_to>>system_hw_pr.yaml
@@ -102,7 +102,7 @@ The example projects are a set of platforms and applications that can be combine
 
 	After creating the system the workspace is now the system canvas. The system canvas uses the same execution contexts created in the platform but the system canvas allows higher level functional blocks to be placed and connected together to describe the application.
 
-1. After importing, a complete and functional DFX system is available. Double click on u96_pl to view what is happening in the programmable logic of the MPSoC.
+12. After importing, a complete and functional DFX system is available. Double click on u96_pl to view what is happening in the programmable logic of the MPSoC.
 
 	![image alt text](images/logic_sys.png)
 
@@ -112,7 +112,7 @@ The example projects are a set of platforms and applications that can be combine
 
 	The min_max block finds the brightest and darkest spots of an image and overlays an image on top. Speedometer draws a speedometer overlayed on the image. The needle position of the speedometer changes with an input control.
 
-1. Click on the Diagram tab in the window to go back to the top. Double click on U96_ps to view the activity ARM processor.
+13. Click on the Diagram tab in the window to go back to the top. Double click on U96_ps to view the activity ARM processor.
 
 	![image alt text](images/arm_sys.png)
 
@@ -122,43 +122,43 @@ The example projects are a set of platforms and applications that can be combine
 
 	**display_image** captures mouse clicks and keyboard button presses and encapsulates the actions into messages for webcam_0 via the control output.
 
-1. Generate the System:
+14. Generate the System:
 
 	**Generate System** calls the VSI compiler and creates the required Vivado IPI Projects for Hardware Contexts, the required CMake based projects for Software Contexts and everything else needed for the application.
 
-	1. From the menu bar select: **Flow**  -> **Generate System** -> Select **OK**
+	14.1. From the menu bar select: **Flow**  -> **Generate System** -> Select **OK**
 
 	![image alt text](images/generate_system.png)
 
-1. Build the High Level Synthesis Blocks (HLS):
+15. Build the High Level Synthesis Blocks (HLS):
 
 	**Build HLS** is used to convert C/C++ code into a hardware description language and allows the code to run on the PL. This step is only required when a system has an import software block in a hardware context.
 
-	1. From the menu bar select: **Flow**  -> **Build HLS** -> Select **Clean and Build**
+	15.1. From the menu bar select: **Flow**  -> **Build HLS** -> Select **Clean and Build**
 
 	![image alt text](images/build_hls.png)
 
-1. Generate the Software:
+16. Generate the Software:
 
 	Build Software Contexts will build the executable for all software context in a system.
 
-	1. From the menu bar select: **Flow** -> Build Software Contexts -> Select **Clean and Build**
+	16.1. From the menu bar select: **Flow** -> Build Software Contexts -> Select **Clean and Build**
 
 	![image alt text](images/build_software.png)
 
-1. Generate the Hardware (Programmable logic bitstreams):
+17. Generate the Hardware (Programmable logic bitstreams):
 
 	Build Hardware will build a bitstream for each hardware context.
 
-	1. From the menu bar select: ****Flow****  -> **Build Hardware**-> Select **OK**
+	17.1. From the menu bar select: ****Flow****  -> **Build Hardware**-> Select **OK**
 
 		![image alt text](images/build_hw.png)
 
-	1. Upon initiating the hardware build, VSI calls Vivado and builds the bistreams required for the application. This step will take a significant amount of time.
+	17.2. Upon initiating the hardware build, VSI calls Vivado and builds the bistreams required for the application. This step will take a significant amount of time.
 
-1. VSI will call Vivado in the background to create and build the Vivado project.
+18. VSI will call Vivado in the background to create and build the Vivado project.
 
-# Section 2: Run the tutorial <a name="run_output"></a>
+# Section 2: Setup environment <a name="setup_environment"></a>
 
 The following steps provide instructions to run the application created by VSI on the Ultra96 board.
 
@@ -166,21 +166,21 @@ The following steps provide instructions to run the application created by VSI o
 ```
 	cd <<project folder directory>>
 ```
-1. Generate .bit.bin files for FPGA Manager on the Ultra96 board
+2. Generate .bit.bin files for FPGA Manager on the Ultra96 board
 
-	1. Change directories to the folder with output bitstream files:
+	2.1. Change directories to the folder with output bitstream files:
 ```
 		cd vsi_auto_gen/hw/system_hw_pr/build/u96_pl/out/
 ```
-	1. Convert all the bit files to .bit.bin files:
+	2.2 Convert all the bit files to .bit.bin files:
 ```
 		for i in *.bit; do bash ../../../u96_pl_gen_bitbin.sh $i; done
 ```
-1. Navigate the project folder directory.
+3. Navigate the project folder directory.
 ```
 	cd <<project folder directory>>
 ```
-1. Copy the following files to **/home/root/dfx** on the Ultra96 board:
+4. Copy the following files to **/home/root/dfx** on the Ultra96 board:
 
 	+ vsi_auto_gen/hw/system_hw_pr/build/u96_pl/out/*.bit.bin
 	+ vsi_auto_gen/sw/system_hw_pr/u96_ps/driver.sh
@@ -192,6 +192,7 @@ The following steps provide instructions to run the application created by VSI o
 	scp <<file>> root@<<ultra96_board>>:/home/root/dfx/
 	```
 
+# Section 3: Run the tutorial <a name="run_output"></a>
 1. On the Ultra96 board start the application by running the following commands:
 
 	```
@@ -200,15 +201,15 @@ The following steps provide instructions to run the application created by VSI o
 	./u96_ps
 	```
 
-1. The display should show the output of the webcam with two boxes overlaid on top. The PL on the MPSoC is drawing boxes on the lightest and darkest spots of the image.
+2. The display should show the output of the webcam with two boxes overlaid on top. The PL on the MPSoC is drawing boxes on the lightest and darkest spots of the image.
 
 	![image alt text](images/min_max.png)
 
-1. Click the mouse button to switch modes. The display should show the output of the webcam with a speedometer overlaid on top of it. Press the up or down arrow key on the keyboard to move the needle on the speedometer.
+3. Click the mouse button to switch modes. The display should show the output of the webcam with a speedometer overlaid on top of it. Press the up or down arrow key on the keyboard to move the needle on the speedometer.
 
 	![image alt text](images/speedometer.png)
 
-# Section 3: Making Changes to the System <a name="make_changes"></a>
+# Section 4: Making Changes to the System <a name="make_changes"></a>
 
 The following steps provide instructions to change a function within the system, along with instructions to regenerate the output files. This section introduces settings within the Import Software Wizard block.
 
@@ -216,9 +217,9 @@ The following steps provide instructions to change a function within the system,
 
 	![image alt text](images/ps_sys.png)
 
-1. This view shows all the blocks that are set to run on the ARM processor. Double click on display_0 to get to the Software Import Wizard settings. The Software Import Wizard provides access to many different settings for the software (or HLS if the block was placed in a hardware context). Currently, the system is configured to **display image**.
+2. This view shows all the blocks that are set to run on the ARM processor. Double click on display_0 to get to the Software Import Wizard settings. The Software Import Wizard provides access to many different settings for the software (or HLS if the block was placed in a hardware context). Currently, the system is configured to **display image**.
 
-1. Change the system to **display image bounce**. In the **Selected Functions** area click the drop down and select **void display_images/image_bounce**.
+3. Change the system to **display image bounce**. In the **Selected Functions** area click the drop down and select **void display_images/image_bounce**.
 
 	![image alt text](images/func_bounce.png)
 
@@ -228,19 +229,19 @@ The following steps provide instructions to change a function within the system,
 
 	Note: The system must be regenerated when changes are made in the system.
 
-	1. From the menu bar select: **Flow** -> Generate System
+	5.1. From the menu bar select: **Flow** -> Generate System
 
 	![image alt text](images/generate_system.png)
 
-1. Rebuild the software.
+6. Rebuild the software.
 
 	Note: The software must be rebuilt because there was a change in the software context. Hardware and HLS do not have to be rebuilt because the hardware context did not change.
 
-	1. From the menu bar select: ****Flow**** -> **Build Software Contexts**
+	6.1. From the menu bar select: ****Flow**** -> **Build Software Contexts**
 
 	![image alt text](images/build_software.png)
 
-1. Press **q** to kill the software currently running. Run the new u96 software by running the following commands:
+7. Press **q** to kill the software currently running. Run the new u96 software by running the following commands:
 
 	```
 	./driver.sh
@@ -249,35 +250,35 @@ The following steps provide instructions to change a function within the system,
 
 	In speedometer mode, the needle should jitter around after pressing the up or down arrow. The speedometer has some bounce that needs to be removed. The next section describes how to add user-supplied software to address the bounce issue.
 
-# Section 4: Importing Software <a name="import_software"></a>
+# Section 5: Importing Software <a name="import_software"></a>
 
 The following steps provide instructions to add a user-supplied software block to the system. The block added will address the speedometer bounce discovered in the last session.
 
 1. Double click the **U96_ps** hierarchy
 
-1. Right click somewhere on the canvas and select **Add IP...**
+2. Right click somewhere on the canvas and select **Add IP...**
 
 	![image alt text](images/add_ip.png)
 
-1. Select the **VSI Software Import Wizard**
+3. Select the **VSI Software Import Wizard**
 
 	![image alt text](images/gen_ip_1.png)
 
-1. An unconfigured VSI Software Import Wizard Block appears. Double click on the block to configure it.
+4. An unconfigured VSI Software Import Wizard Block appears. Double click on the block to configure it.
 
 	![image alt text](images/gen_ip_2.png)
 
-1. Set the Source Directory of the source code in the **Source Dir** section:
+5. Set the Source Directory of the source code in the **Source Dir** section:
 
 		1. Set source directory to **/opt/Systemview/VSI/target/common/hls_examples/webcam/**
 
 		![image alt text](images/src_dir.png)
 
-1. In the **Selection Function** section, set the function to **void debouncer**.
+6. In the **Selection Function** section, set the function to **void debouncer**.
 
 	![image alt text](images/func_debounce.png)
 
-1. Configure the Arguments as follows:
+7. Configure the Arguments as follows:
 
 		Check **Execution Trigger** for Argument . This sets the function to run every time there is activity with this argument.
 
@@ -285,31 +286,31 @@ The following steps provide instructions to add a user-supplied software block t
 
 		![image alt text](images/args.png)
 
-1. Right click the connect between **display_0** and **webcam_0** and select **Delete**
+8. Right click the connect between **display_0** and **webcam_0** and select **Delete**
 
 	![image alt text](images/delete_connection.png)
 
-1. Click on the unconnected **control** port on the **display_0** block and then drag it to the **in** port on **vsi_gen_ip_0 (debounce)** to connect the control output from the display block to the input of the debouncer.
+9. Click on the unconnected **control** port on the **display_0** block and then drag it to the **in** port on **vsi_gen_ip_0 (debounce)** to connect the control output from the display block to the input of the debouncer.
 
 	![image alt text](images/connect_1.png)
 
-1. Click on the unconnected **out** port on the **vsi_gen_ip_0 (debouncer)** block and then drag it to the **control** port on **webcam_0** to connect the output of the debouncer to the input of the webcam block.
+10. Click on the unconnected **out** port on the **vsi_gen_ip_0 (debouncer)** block and then drag it to the **control** port on **webcam_0** to connect the output of the debouncer to the input of the webcam block.
 
 	![image alt text](images/connect_2.png)
 
-1. Regenerate the system.
+11. Regenerate the system.
 
-	1. From the Menu bar select: **Flow**  -> **Generate System**
+	11.1. From the Menu bar select: **Flow**  -> **Generate System**
 
 	![image alt text](images/generate_system.png)
 
-1. Rebuild the software.
+12. Rebuild the software.
 
-	1. From the Menu bar select: **Flow**  -> **Build Software Contexts**
+	12.1. From the Menu bar select: **Flow**  -> **Build Software Contexts**
 
 	![image alt text](images/build_software.png)
 
-1. Press 'Q' to kill the software currently running. Run the new u96 software by running the following commands:
+13. Press 'Q' to kill the software currently running. Run the new u96 software by running the following commands:
 
 	```
 	./driver.sh
